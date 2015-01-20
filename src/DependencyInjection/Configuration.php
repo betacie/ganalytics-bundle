@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('storage')
+                ->IsRequired()
                 ->validate()
                     ->ifNotInArray(array('session', 'array'))
                     ->thenInvalid('The storage %s is not supported.')
