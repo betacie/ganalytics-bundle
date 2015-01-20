@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <!-- Tracker -->
+        <parameter key="betacie_google.ecommerce_tracker.class">Betacie\Google\Tracker\EcommerceTracker</parameter>
+        <parameter key="betacie_google.event_tracker.class">Betacie\Google\Tracker\EventTracker</parameter>
+        <parameter key="betacie_google.aggregate_tracker.class">Betacie\Google\Tracker\AggregateTracker</parameter>
+        
+        <!-- Storage -->
+        <parameter key="betacie_google.array_storage.class">Betacie\Google\Storage\ArrayStorage</parameter>
+        <parameter key="betacie_google.session_storage.class">Betacie\Google\Storage\SessionStorage</parameter>
+        
+        <!-- Session -->
+        <parameter key="betacie_google.tracking_bag.class">Betacie\Google\Session\TrackingBag</parameter>
+        
+        <!-- Twig -->
+        <parameter key="betacie_google.google_extension.class">Betacie\Bundle\GoogleBundle\Twig\Extension\GoogleExtension</parameter>
+    </parameters>
+
+    <services>
+        <!-- Tracker -->
+        <service id="betacie_google.ecommerce_tracker" class="%betacie_google.ecommerce_tracker.class%">
+            <argument type="service" id="betacie_google.storage" />
+            <tag name="betacie_google.tracker" />
+        </service>
+        <service id="betacie_google.event_tracker" class="%betacie_google.event_tracker.class%">
+            <argument type="service" id="betacie_google.storage" />
+            <tag name="betacie_google.tracker" />
+        </service>
+        <service id="betacie_google.aggregate_tracker" class="%betacie_google.aggregate_tracker.class%">
+            <argument type="service" id="betacie_google.storage" />
+        </service>
+        
+        <!-- Storage -->
+        <service id="betacie_google.array_storage" class="%betacie_google.array_storage.class%" />
+        <service id="betacie_google.session_storage" class="%betacie_google.session_storage.class%">
+            <argument type="service" id="session" />
+            <argument type="service" id="betacie_google.tracking_bag" />
+        </service>
+        
+        <!-- Session -->
+        <service id="betacie_google.tracking_bag" class="%betacie_google.tracking_bag.class%" />
+
+        <!-- Twig -->
+        <service id="betacie_google.google_extension" class="%betacie_google.google_extension.class%">
+            <argument type="service" id="betacie_google.aggregate_tracker" />
+            <tag name="twig.extension" />
+        </service>
+    </services>
+
+</container>
