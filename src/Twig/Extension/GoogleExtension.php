@@ -2,22 +2,23 @@
 
 namespace Betacie\Bundle\GoogleBundle\Twig\Extension;
 
-use Betacie\Google\Tracker\TrackerInterface;
+use Betacie\Google\Analytics;
 
 class GoogleExtension extends \Twig_Extension
 {
 
-    private $tracker;
+    private $analytics;
 
-    public function __construct(TrackerInterface $tracker)
+    public function __construct(Analytics $analytics)
     {
-        $this->tracker = $tracker;
+        $this->analytics = $analytics;
     }
 
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('google_track', array($this, 'track'), array('is_safe' => array('html' => true))),
+            new \Twig_SimpleFunction('google_analytics', array($this, 'renderAnalytics'), array('is_safe' => array('html' => true))),
+            new \Twig_SimpleFunction('google_events', array($this, 'renderEvents'), array('is_safe' => array('html' => true))),
         );
     }
 
@@ -26,9 +27,13 @@ class GoogleExtension extends \Twig_Extension
         return 'betacie_google_extension';
     }
 
-    public function track()
+    public function renderAnalytics()
     {
-        return $this->tracker->render();
+        return $this->analytics->render();
     }
 
+    public function renderEvents()
+    {
+        return $this->analytics->getTracker()->render();
+    }
 }

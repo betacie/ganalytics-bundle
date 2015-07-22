@@ -8,12 +8,16 @@
             "email": "y.aparici@gmail.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
-        "betacie/google-analytics": "~0.1"
+        "betacie/google-analytics": "1.0.*@dev"
     },
     "autoload": {
         "psr-4": {
             "Betacie\\Bundle\\GoogleBundle\\": "src/"
         }
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^2.2@dev"
     }
 }

@@ -5,6 +5,10 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <!-- Analytics -->
+        <parameter key="betacie_google.analytics.tracking_id"></parameter>
+        <parameter key="betacie_google.analytics.class">Betacie\Google\Analytics</parameter>
+
         <!-- Tracker -->
         <parameter key="betacie_google.ecommerce_tracker.class">Betacie\Google\Tracker\EcommerceTracker</parameter>
         <parameter key="betacie_google.event_tracker.class">Betacie\Google\Tracker\EventTracker</parameter>
@@ -22,6 +26,12 @@
     </parameters>
 
     <services>
+        <!-- Analytics -->
+        <service id="betacie_google.analytics" class="%betacie_google.analytics.class%">
+            <argument>%betacie_google.analytics.tracking_id%</argument>
+            <argument type="service" id="betacie_google.aggregate_tracker" />
+        </service>
+
         <!-- Tracker -->
         <service id="betacie_google.ecommerce_tracker" class="%betacie_google.ecommerce_tracker.class%">
             <argument type="service" id="betacie_google.storage" />
@@ -47,7 +57,7 @@
 
         <!-- Twig -->
         <service id="betacie_google.google_extension" class="%betacie_google.google_extension.class%">
-            <argument type="service" id="betacie_google.aggregate_tracker" />
+            <argument type="service" id="betacie_google.analytics" />
             <tag name="twig.extension" />
         </service>
     </services>
